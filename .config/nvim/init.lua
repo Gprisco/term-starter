@@ -15,12 +15,22 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+    -- Git related plugins
+    'tpope/vim-fugitive',
+    {
+        -- Adds git related signs to the gutter, as well as utilities for managing changes
+        'lewis6991/gitsigns.nvim',
+    },
+
+    --Theme
+    { { 'rose-pine/neovim', name = 'rose-pine' } },
+
+    -- Project navigation
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.7',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-    { { 'rose-pine/neovim', name = 'rose-pine' } },
     { { 'nvim-treesitter/nvim-treesitter', cmd = 'TSUpdate' } },
     {
         'ThePrimeagen/harpoon',
@@ -28,8 +38,9 @@ require('lazy').setup({
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
     { 'folke/which-key.nvim', opts = {} },
+
+    -- LSP Configuration & Plugins
     {
-        -- LSP Configuration & Plugins
         'neovim/nvim-lspconfig',
         dependencies = {
             -- Automatically install LSPs to stdpath for neovim
@@ -43,8 +54,9 @@ require('lazy').setup({
             'folke/neodev.nvim',
         },
     },
+
+    -- Autocompletion
     {
-        -- Autocompletion
         'hrsh7th/nvim-cmp',
         dependencies = {
             -- Snippet Engine & its associated nvim-cmp source
@@ -58,5 +70,7 @@ require('lazy').setup({
             'rafamadriz/friendly-snippets',
         },
     },
+
+    -- Custom plugins
     require('gio.autoformat'),
 })
