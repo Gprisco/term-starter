@@ -15,7 +15,7 @@ vim.opt.backup = false
 vim.opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
 vim.opt.undofile = true
 
-vim.opt.hlsearch = true -- <C-l> to stop highlighting
+vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
