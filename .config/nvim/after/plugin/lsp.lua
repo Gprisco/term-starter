@@ -33,6 +33,7 @@ require('mason-lspconfig').setup()
 local servers = {
     gopls = {},
     rust_analyzer = {},
+    marksman = {},
 
     lua_ls = {
         Lua = {
