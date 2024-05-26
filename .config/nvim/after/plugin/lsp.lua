@@ -64,6 +64,7 @@ mason_lspconfig.setup_handlers {
             filetypes = (servers[server_name] or {}).filetypes,
         }
     end,
+    ['rust_analyzer'] = function() end -- managed by rustaceanvim
 }
 
 vim.g.rustaceanvim = {
