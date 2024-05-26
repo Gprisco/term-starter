@@ -32,7 +32,6 @@ require('mason-lspconfig').setup()
 -- Enable the following language servers
 local servers = {
     gopls = {},
-    rust_analyzer = {},
     marksman = {},
 
     lua_ls = {
@@ -65,4 +64,11 @@ mason_lspconfig.setup_handlers {
             filetypes = (servers[server_name] or {}).filetypes,
         }
     end,
+}
+
+vim.g.rustaceanvim = {
+    -- LSP configuration
+    server = {
+        on_attach = on_attach
+    },
 }
