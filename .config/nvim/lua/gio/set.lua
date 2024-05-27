@@ -26,6 +26,7 @@ vim.opt.isfname:append('@-@')
 
 vim.opt.colorcolumn = '80'
 
+vim.cmd('set clipboard=unnamedplus') -- yanks to system clipboard
 vim.g.mapleader = ' '
 
 -- [[ Highlight on yank ]]
