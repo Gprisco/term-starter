@@ -24,6 +24,9 @@ local on_attach = function(_, bufnr)
     nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 end
 
+-- require java before lspconfig sets up jdtls
+require('java').setup()
+
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 require('mason').setup()
@@ -33,6 +36,7 @@ require('mason-lspconfig').setup()
 local servers = {
     gopls = {},
     marksman = {},
+    jdtls = {},
 
     lua_ls = {
         Lua = {
@@ -64,7 +68,8 @@ mason_lspconfig.setup_handlers {
             filetypes = (servers[server_name] or {}).filetypes,
         }
     end,
-    ['rust_analyzer'] = function() end -- managed by rustaceanvim
+
+    ['rust_analyzer'] = function() end     -- managed by rustaceanvim
 }
 
 vim.g.rustaceanvim = {

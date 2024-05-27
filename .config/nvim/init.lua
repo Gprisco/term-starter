@@ -28,7 +28,7 @@ require('lazy').setup({
     -- Project navigation
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.7',
+        tag = '0.1.8',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
     { { 'nvim-treesitter/nvim-treesitter', cmd = 'TSUpdate' } },
@@ -75,6 +75,8 @@ require('lazy').setup({
         version = '^4', -- Recommended
         lazy = false,   -- This plugin is already lazy
     },
+    'rcarriga/nvim-notify',
+    require('gio.plugins.java'),
 
     -- Custom plugins
     require('gio.autoformat'),
