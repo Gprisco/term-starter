@@ -71,6 +71,7 @@ mason_lspconfig.setup_handlers {
 vim.g.rustaceanvim = {
     -- LSP configuration
     server = {
+        capabilities = capabilities,
         on_attach = on_attach
     },
 }
