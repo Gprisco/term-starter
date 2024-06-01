@@ -23,7 +23,7 @@ require('lazy').setup({
     },
 
     --Theme
-    { { 'rose-pine/neovim', name = 'rose-pine' } },
+    { 'rose-pine/neovim',                name = 'rose-pine' },
 
     -- Project navigation
     {
@@ -31,7 +31,7 @@ require('lazy').setup({
         tag = '0.1.8',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-    { { 'nvim-treesitter/nvim-treesitter', cmd = 'TSUpdate' } },
+    { 'nvim-treesitter/nvim-treesitter', cmd = 'TSUpdate' },
     {
         'ThePrimeagen/harpoon',
         branch = 'harpoon2',
