@@ -75,3 +75,5 @@ vim.g.rustaceanvim = {
         on_attach = on_attach
     },
 }
+
+vim.lsp.inlay_hint.enable(true)
