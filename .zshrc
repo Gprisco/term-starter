@@ -10,6 +10,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
 
+# Add dotnet core tools
+export PATH="$PATH:/Users/giovanniprisco/.dotnet/tools"
+
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 

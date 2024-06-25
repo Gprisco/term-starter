@@ -36,6 +36,7 @@ require('mason-lspconfig').setup()
 local servers = {
     gopls = {},
     marksman = {},
+    omnisharp = {},
 
     lua_ls = {
         Lua = {
