@@ -76,6 +76,7 @@ require('lazy').setup({
         lazy = false,   -- This plugin is already lazy
     },
     'rcarriga/nvim-notify',
+    'Hoffs/omnisharp-extended-lsp.nvim',
     require('gio.plugins.java'),
 
     -- Custom plugins
