@@ -13,12 +13,19 @@ local on_attach = function(_, bufnr)
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end, '[I]nlay [H]int')
 
-    nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-    nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-    nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-    nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-    nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+    if vim.bo.filetype == 'cs' then
+        nmap('gd', require('omnisharp_extended').telescope_lsp_definition, '[G]oto [D]efinition')
+        nmap('gr', require('omnisharp_extended').telescope_lsp_references, '[G]oto [R]eferences')
+        nmap('gI', require('omnisharp_extended').telescope_lsp_implementation, '[G]oto [I]mplementation')
+        nmap('<leader>D', require('omnisharp_extended').telescope_lsp_type_definition, 'Type [D]efinition')
+    else
+        nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+        nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+        nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+        nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+        nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+    end
 
     nmap('<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', '[E]rrors')
 
