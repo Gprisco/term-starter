@@ -13,6 +13,12 @@ Just run
 ./install.sh
 ```
 
+or
+
+```powershell
+.\install.ps1
+```
+
 ### Sync nvim config changes
 I usually update the configuration in `~/.config/nvim` and then copy the updates
 here before committing them.
@@ -22,3 +28,9 @@ A script which helps me do so is:
 ```bash
 ./syncNvimConfig.sh
 ```
+
+## Environment variables
+If on windows, then set the HOME environment variable to be the user profile home.
+
+## LSP
+Omnisharp is required to be in `$HOME/lsp/omnisharp`.
