@@ -79,6 +79,10 @@ require('lazy').setup({
     'Hoffs/omnisharp-extended-lsp.nvim',
     require('gio.plugins.java'),
     require('gio.plugins.dap'),
+    {
+        'stevearc/dressing.nvim',
+        opts = {},
+    },
 
     -- Custom plugins
     require('gio.autoformat'),

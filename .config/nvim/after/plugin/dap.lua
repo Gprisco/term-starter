@@ -1,21 +1,64 @@
 local dap, dapui = require("dap"), require("dapui")
 
+vim.g.dotnet_build_project = function()
+    local default_path = vim.fn.getcwd()
+    if vim.g['dotnet_last_proj_path'] ~= nil then
+        default_path = vim.g['dotnet_last_proj_path']
+    end
+    local path = vim.fn.input('Project path: ', default_path, 'file')
+    vim.g['dotnet_last_proj_path'] = path
+    local cmd = 'dotnet build -c Debug ' .. path
+    vim.notify('Cmd to execute: ' .. cmd)
+    local f = os.execute(cmd)
+    if f == 0 then
+        vim.notify('\nBuild: ✔️ ')
+    else
+        vim.notify('\nBuild: ❌ (code: ' .. f .. ')')
+    end
+end
+
+vim.g.dotnet_get_dll_path = function()
+    local request = function()
+        return vim.fn.input('Path to dll: ', vim.fn.getcwd(), 'file')
+    end
+
+    if vim.g['dotnet_last_dll_path'] == nil then
+        vim.g['dotnet_last_dll_path'] = request()
+    else
+        if vim.fn.confirm('Do you want to change the path to dll?\n' .. vim.g['dotnet_last_dll_path'], '&yes\n&no', 2) == 1 then
+            vim.g['dotnet_last_dll_path'] = request()
+        end
+    end
+
+    return vim.g['dotnet_last_dll_path']
+end
+
+local config = {
+    {
+        type = "coreclr",
+        name = "launch - netcoredbg",
+        request = "launch",
+        program = function()
+            if vim.fn.confirm('Should I recompile first?', '&yes\n&no', 2) == 1 then
+                vim.g.dotnet_build_project()
+            end
+            return vim.g.dotnet_get_dll_path()
+        end,
+    },
+    {
+        type = "coreclr",
+        name = "attach - netcoredbg",
+        request = "attach",
+        processId = require('dap.utils').pick_process,
+    },
+}
+
 dap.adapters.coreclr = {
     type = 'executable',
     command = os.getenv('HOME') .. '/dap/netcoredbg/netcoredbg',
     args = { '--interpreter=vscode' }
 }
-
-dap.configurations.cs = {
-    {
-        type = 'coreclr',
-        name = 'launch - netcoredbg',
-        request = 'launch',
-        program = function()
-            return vim.fn.input('Path to dll:', vim.fn.getcwd() .. '/bin/Debug/', 'file')
-        end,
-    },
-}
+dap.configurations.cs = config
 
 dapui.setup({
     icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
@@ -72,16 +115,6 @@ dapui.setup({
         enabled = true,
         -- Display controls in this element
         element = "repl",
-        -- icons = {
-        --     pause = "⏸",
-        --     play = "⏵",
-        --     step_into = "",
-        --     step_over = "",
-        --     step_out = "",
-        --     step_back = "",
-        --     run_last = "↻",
-        --     terminate = "□",
-        -- },
     },
     floating = {
         max_height = nil,  -- These can be integers or a float between 0 and 1.
@@ -107,22 +140,10 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
 end
---[[
---
-nnoremap <silent> <F5> <Cmd>lua require'dap'.continue()<CR>
-nnoremap <silent> <F10> <Cmd>lua require'dap'.step_over()<CR>
-nnoremap <silent> <F11> <Cmd>lua require'dap'.step_into()<CR>
-nnoremap <silent> <F12> <Cmd>lua require'dap'.step_out()<CR>
-nnoremap <silent> <Leader>b <Cmd>lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <Leader>B <Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <Leader>lp <Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-nnoremap <silent> <Leader>dr <Cmd>lua require'dap'.repl.open()<CR>
-nnoremap <silent> <Leader>dl <Cmd>lua require'dap'.run_last()<CR>
---]]
 
 local nmap = function(keys, func, desc)
     if desc then
-        desc = 'LSP: ' .. desc
+        desc = 'DAP: ' .. desc
     end
 
     vim.keymap.set('n', keys, func, { desc = desc, silent = true })
