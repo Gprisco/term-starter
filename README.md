@@ -32,5 +32,6 @@ A script which helps me do so is:
 ## Environment variables
 If on windows, then set the HOME environment variable to be the user profile home.
 
-## LSP
-Omnisharp is required to be in `$HOME/lsp/omnisharp`.
+## LSPs and DAPs
+* Omnisharp is required to be in `$HOME/lsp/omnisharp`
+* netcoredbg is required to be in `$HOME/dap/netcoredbg`

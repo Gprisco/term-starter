@@ -78,6 +78,7 @@ require('lazy').setup({
     'rcarriga/nvim-notify',
     'Hoffs/omnisharp-extended-lsp.nvim',
     require('gio.plugins.java'),
+    require('gio.plugins.dap'),
 
     -- Custom plugins
     require('gio.autoformat'),
