@@ -23,7 +23,11 @@ require('lazy').setup({
     },
 
     --Theme
-    { 'rose-pine/neovim',                name = 'rose-pine' },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000
+    },
 
     -- Project navigation
     {
@@ -37,7 +41,7 @@ require('lazy').setup({
         branch = 'harpoon2',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-    { 'folke/which-key.nvim', opts = {} },
+    { 'folke/which-key.nvim',            opts = {} },
 
     -- LSP Configuration & Plugins
     {
