@@ -23,7 +23,11 @@ require('lazy').setup({
     },
 
     --Theme
-    { 'rose-pine/neovim',                name = 'rose-pine' },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000
+    },
 
     -- Project navigation
     {
@@ -37,7 +41,7 @@ require('lazy').setup({
         branch = 'harpoon2',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-    { 'folke/which-key.nvim', opts = {} },
+    { 'folke/which-key.nvim',            opts = {} },
 
     -- LSP Configuration & Plugins
     {
@@ -76,7 +80,13 @@ require('lazy').setup({
         lazy = false,   -- This plugin is already lazy
     },
     'rcarriga/nvim-notify',
+    'Hoffs/omnisharp-extended-lsp.nvim',
     require('gio.plugins.java'),
+    require('gio.plugins.dap'),
+    {
+        'stevearc/dressing.nvim',
+        opts = {},
+    },
 
     -- Custom plugins
     require('gio.autoformat'),
