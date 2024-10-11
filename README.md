@@ -35,3 +35,6 @@ If on windows, then set the HOME environment variable to be the user profile hom
 ## LSPs and DAPs
 * Omnisharp is required to be in `$HOME/lsp/omnisharp`
 * netcoredbg is required to be in `$HOME/dap/netcoredbg`
+
+## Notes for Windows
+[Treesitter](https://github.com/nvim-treesitter/nvim-treesitter.git) requires a C compiler and llvm.
