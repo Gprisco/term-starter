@@ -1,5 +1,5 @@
 # term-starter
-Some basic configuration for easily get my shell and neovim setup.
+Some basic configuration for easily get my shell, neovim and ideavim setup.
 
 ## Usage
 Some tools are required, like **zsh** shell, [fzf](https://github.com/junegunn/fzf),
