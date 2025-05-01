@@ -88,6 +88,7 @@ local servers = {
         },
     },
     ts_ls = {},
+    clangd = {},
 
     lua_ls = {
         Lua = {
