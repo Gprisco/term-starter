@@ -4,12 +4,12 @@
 
 -- Diagnostic display options
 vim.diagnostic.config({
-  virtual_text   = true,
-  signs          = true,
-  underline      = true,
+  virtual_text     = true,
+  signs            = true,
+  underline        = true,
   update_in_insert = false,
-  severity_sort  = true,
-  float = {
+  severity_sort    = true,
+  float            = {
     border = 'rounded',
     source = true,
   },
@@ -63,8 +63,8 @@ vim.api.nvim_create_autocmd('FileType', {
       cmd[2] = '--stdio'
     end
     vim.lsp.start({
-      name    = 'tsserver',
-      cmd     = cmd,
+      name     = 'tsserver',
+      cmd      = cmd,
       root_dir = root or vim.fn.getcwd(),
       settings = {
         typescript = {
@@ -87,7 +87,7 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'cs',
   callback = function()
-    local root = find_root({ '*.sln', '*.csproj', '.git' })
+    local root = find_root({ '*.sln', '*.slnx', '*.slnf', '*.csproj', '.git' })
     vim.lsp.start({
       name     = 'csharp-ls',
       cmd      = { 'csharp-ls' },
@@ -110,14 +110,14 @@ vim.api.nvim_create_autocmd('FileType', {
       settings = {
         Lua = {
           runtime = {
-            version = 'LuaJIT',  -- Neovim uses LuaJIT
+            version = 'LuaJIT', -- Neovim uses LuaJIT
           },
           workspace = {
             checkThirdParty = false,
-            library = vim.api.nvim_get_runtime_file('', true),  -- expose Neovim runtime
+            library = vim.api.nvim_get_runtime_file('', true), -- expose Neovim runtime
           },
           diagnostics = {
-            globals = { 'vim' },  -- suppress "undefined global vim" warnings
+            globals = { 'vim' }, -- suppress "undefined global vim" warnings
           },
           telemetry = { enable = false },
         },
