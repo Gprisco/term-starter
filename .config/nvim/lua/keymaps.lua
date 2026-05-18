@@ -57,8 +57,10 @@ map('n', '<leader>fh',       function() require('mini.pick').builtin.help() end,
 -- -----------------------------------------------------------------------------
 -- LSP — custom keymaps (rest use Nvim built-in lsp-defaults: gd, grr, K, etc.)
 -- -----------------------------------------------------------------------------
-map('n', '<leader>rn', vim.lsp.buf.rename,      { desc = 'Rename symbol' })
-map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code actions' })
+map('n', '<leader>rn', vim.lsp.buf.rename,                        { desc = 'Rename symbol' })
+map('n', '<leader>ca', vim.lsp.buf.code_action,                   { desc = 'Code actions' })
+map('n', 'gI',         vim.lsp.buf.implementation,                { desc = 'Go to implementation' })
+map('n', 'gr',         function() vim.lsp.buf.references() end,   { desc = 'Go to references' })
 
 -- -----------------------------------------------------------------------------
 -- Diagnostics

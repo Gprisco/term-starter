@@ -50,7 +50,7 @@ Manual config via `FileType` autocmds in `lua/lsp.lua`. No mason.nvim.
 
 Servers must be installed on the system:
 - TypeScript: `npm i -g typescript-language-server typescript`
-- C#: `dotnet tool install -g csharp-ls`
+- C#: download linux-x64 nuget from `https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.languageserver.linux-x64/<version>/microsoft.codeanalysis.languageserver.linux-x64.<version>.nupkg`, extract `content/LanguageServer/linux-x64/` to `~/.roslyn/`, and `chmod +x ~/.roslyn/Microsoft.CodeAnalysis.LanguageServer`
 
 TypeScript uses project-local `tsserver` when available, falls back to global.
 C# root detection looks for `*.sln`, `*.csproj`, or `.git`.

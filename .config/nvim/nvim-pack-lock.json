@@ -8,6 +8,14 @@
       "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
       "src": "https://github.com/catppuccin/nvim"
     },
+    "csharpls-extended-lsp.nvim": {
+      "rev": "be8093d19af1538aad9ee77dc5589e55b083967a",
+      "src": "https://github.com/Decodetalkers/csharpls-extended-lsp.nvim"
+    },
+    "fidget.nvim": {
+      "rev": "889e2e96edef4e144965571d46f7a77bcc4d0ddf",
+      "src": "https://github.com/j-hui/fidget.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "dd3f588bacbeb041be6facf1742e42097f62165d",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
@@ -24,9 +32,17 @@
       "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
       "src": "https://github.com/catppuccin/nvim"
     },
+    "nvim-notify": {
+      "rev": "8701bece920b38ea289b457f902e2ad184131a5d",
+      "src": "https://github.com/rcarriga/nvim-notify"
+    },
     "nvim-tree.lua": {
       "rev": "07f541fcaa4a5ae019598240362449ab7e9812b3",
       "src": "https://github.com/nvim-tree/nvim-tree.lua"
+    },
+    "nvim-treesitter": {
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-web-devicons": {
       "rev": "7d8dad2c837fcdf2e65997e68657c1a21c568074",
@@ -35,6 +51,10 @@
     "opencode.nvim": {
       "rev": "05547308bb931dc5da80a81d282f18e581788752",
       "src": "https://github.com/nickjvandyke/opencode.nvim"
+    },
+    "roslyn.nvim": {
+      "rev": "90d43d35f0ebb5ecf1df734194cb568a162de4cb",
+      "src": "https://github.com/seblyng/roslyn.nvim"
     },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
