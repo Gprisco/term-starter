@@ -3,8 +3,8 @@
 -- =============================================================================
 
 -- Leader must be set before any plugin or keymap is loaded
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader        = " "
+vim.g.maplocalleader   = " "
 
 -- Basic options
 vim.opt.number         = true
@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
       vim.notify('Error reloading ' .. modname .. ':\n' .. err, vim.log.levels.ERROR)
     end
   end,
-  desc = 'Reload nvim config module on save',
+  desc     = 'Reload nvim config module on save',
 })
 
 vim.api.nvim_create_autocmd('BufWritePost', {
@@ -53,5 +53,5 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     vim.cmd('source $MYVIMRC')
     vim.notify('Reloaded: init.lua', vim.log.levels.INFO)
   end,
-  desc = 'Re-source init.lua on save',
+  desc     = 'Re-source init.lua on save',
 })
