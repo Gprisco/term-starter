@@ -20,8 +20,18 @@ map('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
 map('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', { desc = 'Toggle file explorer' })
 
 -- -----------------------------------------------------------------------------
+-- Window navigation
+-- -----------------------------------------------------------------------------
+map('n', '<C-h>', '<C-w>h', { desc = 'Move to left window' })
+map('n', '<C-l>', '<C-w>l', { desc = 'Move to right window' })
+map('n', '<C-j>', '<C-w>j', { desc = 'Move to lower window' })
+map('n', '<C-k>', '<C-w>k', { desc = 'Move to upper window' })
+
+-- -----------------------------------------------------------------------------
 -- Buffers
 -- -----------------------------------------------------------------------------
+map('n', '<S-h>', '<cmd>BufferLineCyclePrev<cr>', { desc = 'Previous buffer' })
+map('n', '<S-l>', '<cmd>BufferLineCycleNext<cr>', { desc = 'Next buffer' })
 map('n', '<leader>bd', '<cmd>bdelete<cr>', { desc = 'Close buffer' })
 
 -- -----------------------------------------------------------------------------

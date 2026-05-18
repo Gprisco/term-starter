@@ -1,5 +1,13 @@
 {
   "plugins": {
+    "bufferline.nvim": {
+      "rev": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3",
+      "src": "https://github.com/akinsho/bufferline.nvim"
+    },
+    "catppuccin": {
+      "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
+      "src": "https://github.com/catppuccin/nvim"
+    },
     "mini.pick": {
       "rev": "975e398570dd15696575c5374f94e78fd29a7a69",
       "src": "https://github.com/echasnovski/mini.pick"
