@@ -19,17 +19,18 @@ On Windows: `.\install.ps1` copies `.config/nvim` to `%LOCALAPPDATA%\nvim`.
 
 ```
 .config/nvim/
-├── init.lua                  — options, leader, module loader, auto-reload autocmds
+├── init.lua                  — options, leader, keymaps/lsp requires, auto-reload autocmds
 ├── nvim-pack-lock.json       — vim.pack lockfile, commit this
+├── plugin/                   — self-contained plugin files (sourced automatically at step 11)
+│   ├── catppuccin.lua        — colorscheme (eager: vim.pack.add + setup directly)
+│   ├── mini-pick.lua
+│   ├── neoscroll.lua
+│   ├── nvim-tree.lua
+│   └── which-key.lua
 └── lua/
     ├── keymaps.lua
-    ├── lsp.lua
-    └── plugins/
-        ├── init.lua          — vim.pack.add() + require each plugin
-        ├── catppuccin.lua
-        ├── mini-pick.lua
-        ├── neoscroll.lua
-        └── which-key.lua
+    ├── lazyload.lua          — VimEnter queue helper
+    └── lsp.lua
 ```
 
 ## Package manager
@@ -37,8 +38,10 @@ On Windows: `.\install.ps1` copies `.config/nvim` to `%LOCALAPPDATA%\nvim`.
 Uses **`vim.pack`** (Neovim 0.12+ built-in). No lazy.nvim or other external manager.
 
 - Plugins install to `~/.local/share/nvim/site/pack/core/opt/`
+- Each `plugin/<name>.lua` file owns its own `vim.pack.add()` call and setup
+- Most plugins wrap setup in `require('lazyload').on_vim_enter(...)` for deferred startup
+- Colorscheme (catppuccin) is the exception — it loads eagerly so the theme is set before VimEnter
 - On first launch, Neovim prompts to confirm installation
-- After install, if plugin dirs appear empty (only `.git/`), run: `git checkout HEAD` inside each plugin dir — this is a known first-run quirk
 - To update plugins: `:lua vim.pack.update()` inside Neovim
 
 ## LSP
@@ -55,7 +58,7 @@ C# root detection looks for `*.sln`, `*.csproj`, or `.git`.
 ## Key conventions
 
 - Leader is `<Space>`
-- Adding a new plugin: add to `vim.pack.add()` in `lua/plugins/init.lua`, create `lua/plugins/<name>.lua` for setup, require it from `init.lua`
+- Adding a new plugin: create `plugin/<name>.lua`, call `vim.pack.add()` inside `require('lazyload').on_vim_enter(...)` (or eagerly for colorschemes/dashboards)
 - `lua/*.lua` modules auto-reload on save (clears `package.loaded` and re-requires)
 - `init.lua` auto-reloads via `source $MYVIMRC` on save
 - neoscroll owns `<C-d>`/`<C-u>` — do not remap those in `keymaps.lua`

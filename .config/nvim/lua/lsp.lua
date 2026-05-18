@@ -85,3 +85,33 @@ vim.api.nvim_create_autocmd('FileType', {
     })
   end,
 })
+
+-- -----------------------------------------------------------------------------
+-- Lua — lua-language-server  (install: brew/pacman/apt install lua-language-server)
+-- -----------------------------------------------------------------------------
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'lua',
+  callback = function()
+    local root = find_root({ '.luarc.json', '.luarc.jsonc', '.git' })
+    vim.lsp.start({
+      name     = 'lua_ls',
+      cmd      = { 'lua-language-server' },
+      root_dir = root or vim.fn.getcwd(),
+      settings = {
+        Lua = {
+          runtime = {
+            version = 'LuaJIT',  -- Neovim uses LuaJIT
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = vim.api.nvim_get_runtime_file('', true),  -- expose Neovim runtime
+          },
+          diagnostics = {
+            globals = { 'vim' },  -- suppress "undefined global vim" warnings
+          },
+          telemetry = { enable = false },
+        },
+      },
+    })
+  end,
+})
