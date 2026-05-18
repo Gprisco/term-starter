@@ -16,16 +16,6 @@ vim.diagnostic.config({
 })
 
 -- -----------------------------------------------------------------------------
--- Format on save (LSP)
--- -----------------------------------------------------------------------------
-vim.api.nvim_create_autocmd('BufWritePre', {
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
-  desc = 'Format buffer with LSP before saving',
-})
-
--- -----------------------------------------------------------------------------
 -- Feedback — notify on LSP attach and progress
 -- -----------------------------------------------------------------------------
 
