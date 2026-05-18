@@ -59,3 +59,11 @@ map('n', '<leader>fh',       function() require('mini.pick').builtin.help() end,
 -- -----------------------------------------------------------------------------
 map('n', '<leader>rn', vim.lsp.buf.rename,      { desc = 'Rename symbol' })
 map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code actions' })
+
+-- -----------------------------------------------------------------------------
+-- Diagnostics
+-- -----------------------------------------------------------------------------
+map('n', '<leader>d',  function() vim.diagnostic.open_float() end,               { desc = 'Show diagnostics' })
+map('n', ']d',         function() vim.diagnostic.goto_next() end,                 { desc = 'Next diagnostic' })
+map('n', '[d',         function() vim.diagnostic.goto_prev() end,                 { desc = 'Prev diagnostic' })
+map('n', '<leader>dl', function() vim.diagnostic.setloclist() end,                { desc = 'Diagnostics to loclist' })
