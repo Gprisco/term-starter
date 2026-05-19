@@ -46,14 +46,21 @@ Uses **`vim.pack`** (Neovim 0.12+ built-in). No lazy.nvim or other external mana
 
 ## LSP
 
-Manual config via `FileType` autocmds in `lua/lsp.lua`. No mason.nvim.
+Config via `lua/lsp.lua` using `vim.lsp.config` / `vim.lsp.enable` (Nvim 0.11+ API). No mason.nvim.
+
+**nvim-lspconfig** (`plugin/nvim-lspconfig.lua`) is installed via `vim.pack` as a config registry — it provides default server configs (filetypes, root markers, cmd) into the runtimepath. `require('lspconfig')` is **not** used; it is deprecated.
+
+To add a new server:
+1. Optionally call `vim.lsp.config('server_name', { ... })` in `lua/lsp.lua` to customize defaults.
+2. Add `'server_name'` to the `vim.lsp.enable({ ... })` call at the bottom of `lua/lsp.lua`.
 
 Servers must be installed on the system:
 - TypeScript: `npm i -g typescript-language-server typescript`
+- Lua: `brew/pacman/apt install lua-language-server`
 - C#: download linux-x64 nuget from `https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.languageserver.linux-x64/<version>/microsoft.codeanalysis.languageserver.linux-x64.<version>.nupkg`, extract `content/LanguageServer/linux-x64/` to `~/.roslyn/`, and `chmod +x ~/.roslyn/Microsoft.CodeAnalysis.LanguageServer`
 
 TypeScript uses project-local `tsserver` when available, falls back to global.
-C# root detection looks for `*.sln`, `*.csproj`, or `.git`.
+C# is handled by `plugin/roslyn.lua` (roslyn_ls via nvim-lspconfig) — root detection looks for `*.sln`, `*.csproj`, or `.git`.
 
 ## Key conventions
 

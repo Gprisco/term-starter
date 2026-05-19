@@ -48,25 +48,27 @@ local function find_project_files()
   end
 end
 
-map('n', '<leader><leader>', find_project_files,                                   { desc = 'Find project files' })
-map('n', '<leader>ff',       function() require('mini.pick').builtin.files() end,  { desc = 'Find files' })
-map('n', '<leader>fg',       function() require('mini.pick').builtin.grep_live() end, { desc = 'Live grep' })
-map('n', '<leader>fb',       function() require('mini.pick').builtin.buffers() end,   { desc = 'Find buffers' })
-map('n', '<leader>fh',       function() require('mini.pick').builtin.help() end,      { desc = 'Find help' })
+map('n', '<leader><leader>', find_project_files, { desc = 'Find project files' })
+map('n', '<leader>ff', function() require('mini.pick').builtin.files() end, { desc = 'Find files' })
+map('n', '<leader>fg', function() require('mini.pick').builtin.grep_live() end, { desc = 'Live grep' })
+map('n', '<leader>fb', function() require('mini.pick').builtin.buffers() end, { desc = 'Find buffers' })
+map('n', '<leader>fh', function() require('mini.pick').builtin.help() end, { desc = 'Find help' })
 
 -- -----------------------------------------------------------------------------
 -- LSP — custom keymaps (rest use Nvim built-in lsp-defaults: gd, grr, K, etc.)
 -- -----------------------------------------------------------------------------
 map('n', '<leader>cf', function() vim.lsp.buf.format({ async = false }) end, { desc = 'Format buffer' })
-map('n', '<leader>rn', vim.lsp.buf.rename,                        { desc = 'Rename symbol' })
-map('n', '<leader>ca', vim.lsp.buf.code_action,                   { desc = 'Code actions' })
-map('n', 'gI',         vim.lsp.buf.implementation,                { desc = 'Go to implementation' })
-map('n', 'gr',         function() vim.lsp.buf.references() end,   { desc = 'Go to references' })
+map('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
+map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code actions' })
+map('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
+map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to declaration' })
+map('n', 'gI', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
+map('n', 'gr', function() vim.lsp.buf.references() end, { desc = 'Go to references' })
 
 -- -----------------------------------------------------------------------------
 -- Diagnostics
 -- -----------------------------------------------------------------------------
-map('n', '<leader>d',  function() vim.diagnostic.open_float() end,               { desc = 'Show diagnostics' })
-map('n', ']d',         function() vim.diagnostic.goto_next() end,                 { desc = 'Next diagnostic' })
-map('n', '[d',         function() vim.diagnostic.goto_prev() end,                 { desc = 'Prev diagnostic' })
-map('n', '<leader>dl', function() vim.diagnostic.setloclist() end,                { desc = 'Diagnostics to loclist' })
+map('n', '<leader>d', function() vim.diagnostic.open_float() end, { desc = 'Show diagnostics' })
+map('n', ']d', function() vim.diagnostic.goto_next() end, { desc = 'Next diagnostic' })
+map('n', '[d', function() vim.diagnostic.goto_prev() end, { desc = 'Prev diagnostic' })
+map('n', '<leader>dl', function() vim.diagnostic.setloclist() end, { desc = 'Diagnostics to loclist' })
