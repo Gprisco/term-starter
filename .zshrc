@@ -8,7 +8,7 @@ fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$PATH
+export PATH=$GOPATH/bin:$HOME/.dotnet/tools:$PATH
 
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
