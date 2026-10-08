@@ -5,7 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew is optional on a fresh machine — only activate it if it exists.
+[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # mise manages tool versions (node, go, neovim, language servers, ...).
 # Config lives in this repo's mise.toml, symlinked to ~/.config/mise/config.toml
@@ -15,8 +16,15 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 #
 # Caveat: in shims mode mise [env] vars are applied to mise-managed processes
 # only, so JAVA_HOME / DOTNET_ROOT are *not* exported into this shell.
+# ~/.local/bin (where the installer puts mise) is not in the default macOS
+# PATH, so put it there first — otherwise the guard below never sees mise
+# and shims silently never reach PATH (breaking nvim, fzf, zoxide, ...).
+export PATH="$HOME/.local/bin:$PATH"
 if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh --shims)"
+else
+  # mise binary missing entirely: still put shims on PATH so tools resolve.
+  export PATH="$HOME/.local/share/mise/shims:$PATH"
 fi
 
 # `go install` target. mise provides `go` itself via its shim.
