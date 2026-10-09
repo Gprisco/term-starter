@@ -24,6 +24,7 @@
   pnpm = "12.9.0"
   go = "1.27.1"
   dotnet = "10.0.401" # 11.x is still rc — 10 is what roslyn targets
+  rust = "1.99"
 
   # --- editor & shell tools --------------------------------------------
   neovim = "0.12.5" # config requires 0.12+ (vim.pack)
