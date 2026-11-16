@@ -5,17 +5,30 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew is optional on a fresh machine — only activate it if it exists.
+[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$HOME/.dotnet/tools:$PATH
+# mise manages tool versions (node, go, neovim, language servers, ...).
+# Config lives in this repo's mise.toml, symlinked to ~/.config/mise/config.toml
+# by ./install.sh. Shims mode puts ~/.local/share/mise/shims on PATH, so tools
+# also resolve for child processes that never run a mise prompt — nvim spawning
+# language servers, fzf previews, git hooks.
+#
+# Caveat: in shims mode mise [env] vars are applied to mise-managed processes
+# only, so JAVA_HOME / DOTNET_ROOT are *not* exported into this shell.
+# ~/.local/bin (where the installer puts mise) is not in the default macOS
+# PATH, so put it there first — otherwise the guard below never sees mise
+# and shims silently never reach PATH (breaking nvim, fzf, zoxide, ...).
+export PATH="$HOME/.local/bin:$PATH"
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh --shims)"
+else
+  # mise binary missing entirely: still put shims on PATH so tools resolve.
+  export PATH="$HOME/.local/share/mise/shims:$PATH"
+fi
 
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# `go install` target. mise provides `go` itself via its shim.
+export PATH="$HOME/go/bin:$PATH"
 
 # Configure git to use neovim as default editor
 git config --global core.editor "nvim -f"

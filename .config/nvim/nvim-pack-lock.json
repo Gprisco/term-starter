@@ -12,10 +12,6 @@
       "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
       "src": "https://github.com/catppuccin/nvim"
     },
-    "csharpls-extended-lsp.nvim": {
-      "rev": "be8093d19af1538aad9ee77dc5589e55b083967a",
-      "src": "https://github.com/Decodetalkers/csharpls-extended-lsp.nvim"
-    },
     "fidget.nvim": {
       "rev": "889e2e96edef4e144965571d46f7a77bcc4d0ddf",
       "src": "https://github.com/j-hui/fidget.nvim"
@@ -32,9 +28,9 @@
       "rev": "c8d29979cb0cb3a2437a8e0ae683fd82f340d3b8",
       "src": "https://github.com/karb94/neoscroll.nvim"
     },
-    "nvim": {
-      "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
-      "src": "https://github.com/catppuccin/nvim"
+    "nvim-lspconfig": {
+      "rev": "db68de3575fff9dd9bb78b34c8371759ed35fe34",
+      "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-notify": {
       "rev": "8701bece920b38ea289b457f902e2ad184131a5d",
@@ -55,10 +51,6 @@
     "opencode.nvim": {
       "rev": "05547308bb931dc5da80a81d282f18e581788752",
       "src": "https://github.com/nickjvandyke/opencode.nvim"
-    },
-    "roslyn.nvim": {
-      "rev": "90d43d35f0ebb5ecf1df734194cb568a162de4cb",
-      "src": "https://github.com/seblyng/roslyn.nvim"
     },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",

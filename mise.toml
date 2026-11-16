@@ -1,0 +1,53 @@
+# =============================================================================
+# mise.toml — toolchain for term-starter
+#
+# install.sh symlinks this file to ~/.config/mise/config.toml, so it acts as
+# your global mise config. The shell activates mise in shims mode
+# (.zshrc: mise activate zsh --shims), which puts
+# ~/.local/share/mise/shims on PATH.
+#
+# Versions are exact pins. After editing:
+#
+#   mise lock --bump <tool>     re-resolve one tool (mise.toml + mise.lock)
+#   mise install                install what changed
+#   mise ls                     show resolved versions
+#   mise upgrade <tool>@<ver>   jump to a specific version
+#
+# mise.lock is generated from this file and committed. Because both are
+# symlinked out of ~/.config/mise, mise writes lock updates straight back here.
+# =============================================================================
+
+[tools]
+  # --- runtimes ---------------------------------------------------------
+  node = "24.21.0" # LTS line; bump deliberately, 26.x is current
+  bun = "1.4.2"
+  pnpm = "12.9.0"
+  go = "1.27.1"
+  dotnet = "10.0.401" # 11.x is still rc — 10 is what roslyn targets
+  rust = "1.99"
+
+  # --- editor & shell tools --------------------------------------------
+  neovim = "0.12.5" # config requires 0.12+ (vim.pack)
+  fzf = "0.74.4"
+  zoxide = "0.10.0"
+  ripgrep = "15.2.0"
+  opencode = "1.18.34" # binary used by .config/nvim/plugin/opencode.lua
+
+  # --- language servers -------------------------------------------------
+  # typescript-language-server ships no dependencies: it resolves `typescript`
+  # from the workspace, then from tsserver.fallbackPath (set in lua/lsp.lua to
+  # the path mise installs here). Pin < 7 — ts_ls does not support TS 7 yet.
+  "npm:typescript" = "6.0.3"
+  "npm:typescript-language-server" = "6.0.1"
+  lua-language-server = "3.19.1"
+  # Installed as a dotnet global tool; ships as a .NET 10 apphost with
+  # rollForward=Major, and nvim-lspconfig's roslyn_ls config finds
+  # `roslyn-language-server` on PATH by itself.
+  "dotnet:roslyn-language-server" = { version = "5.12.0-1.26475.2", prerelease = true }
+
+  # --- deliberately not managed ----------------------------------------
+  # java — see java.md for why it is not in this file yet.
+
+[settings]
+  # Keep mise.lock in sync automatically on install/upgrade.
+  lockfile = true

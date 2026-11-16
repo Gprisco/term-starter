@@ -89,25 +89,38 @@ end, { desc = 'Show LSP clients attached to current buffer' })
 -- -----------------------------------------------------------------------------
 -- TypeScript — ts_ls (typescript-language-server)
 --
--- Prefers project-local tsserver binary when available, falls back to global.
--- nvim-lspconfig provides the default config (filetypes, root markers, etc.);
--- we only override cmd and settings here.
+-- No `cmd` override: nvim-lspconfig's default prefers a project-local
+-- node_modules/.bin/typescript-language-server (resolved from root_dir) and
+-- falls back to the mise shim on PATH.
+--
+-- typescript-language-server ships with no dependencies, so it resolves
+-- `typescript` from the workspace first, then from tsserver.fallbackPath, then
+-- from its own (empty) node_modules. mise installs each npm package into its
+-- own directory, so the sibling-copy trick `npm i -g` relied on cannot work —
+-- hence the fallback pointing at npm:typescript from mise.toml. A workspace
+-- with its own node_modules/typescript still wins over the fallback.
 -- -----------------------------------------------------------------------------
 
----@return string[]
-local function typescript_cmd()
-  local local_ts = vim.fn.findfile(
-    'node_modules/.bin/typescript-language-server',
-    vim.fn.getcwd() .. ';'
-  )
-  if local_ts ~= '' then
-    return { vim.fn.fnamemodify(local_ts, ':p'), '--stdio' }
+---Resolve the tsserver.js that mise installed via `npm:typescript`.
+---@return string|nil path nil when mise or typescript is unavailable
+local function tsserver_fallback_path()
+  local ok, out = pcall(vim.fn.system, { 'mise', 'where', 'npm:typescript' })
+  if not ok or vim.v.shell_error ~= 0 or type(out) ~= 'string' then
+    return nil
   end
-  return { 'typescript-language-server', '--stdio' }
+  local dir = vim.trim(out)
+  if dir == '' then
+    return nil
+  end
+  local lib = vim.fs.joinpath(dir, 'node_modules', 'typescript', 'lib', 'tsserver.js')
+  return vim.uv.fs_stat(lib) and lib or nil
 end
 
 vim.lsp.config('ts_ls', {
-  cmd = typescript_cmd(),
+  init_options = {
+    hostInfo = 'neovim',
+    tsserver = { fallbackPath = tsserver_fallback_path() },
+  },
   settings = {
     typescript = {
       inlayHints = {
@@ -160,19 +173,14 @@ vim.lsp.config('lua_ls', {
 --
 -- nvim-lspconfig provides the full roslyn_ls config: filetypes, handlers,
 -- commands (fixAllCodeAction, nestedCodeAction, completionComplexEdit), and
--- on_attach/on_init. We only override cmd and settings here.
+-- on_attach/on_init — including its default cmd, which looks for the
+-- `roslyn-language-server` binary on PATH.
 --
--- Server binary: extract the linux-x64 nuget to ~/.roslyn/ (see AGENTS.md).
+-- mise installs that binary as a dotnet tool (see mise.toml), so there is no
+-- cmd override here. We only override settings.
 -- -----------------------------------------------------------------------------
 
 vim.lsp.config('roslyn_ls', {
-  cmd = {
-    'dotnet',
-    vim.fs.joinpath(vim.uv.os_homedir(), '.roslyn', 'Microsoft.CodeAnalysis.LanguageServer.dll'),
-    '--logLevel', 'Information',
-    '--extensionLogDirectory', vim.fs.joinpath(vim.uv.os_tmpdir(), 'roslyn_ls/logs'),
-    '--stdio',
-  },
   settings = {
     ['csharp|inlay_hints'] = {
       csharp_enable_inlay_hints_for_implicit_object_creation              = true,

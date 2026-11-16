@@ -2,18 +2,43 @@
 
 ## What this repo is
 
-Dotfiles/config starter: copies a Neovim config and `.zshrc` to the right locations.
+Dotfiles/config starter: installs a mise-managed toolchain and copies a Neovim
+config and `.zshrc` to the right locations.
 
 ## Workflow
 
 **Edit here, deploy with the script — never edit `~/.config/nvim` directly.**
 
 ```bash
-./install.sh          # deploy .config/nvim → ~/.config/nvim and .zshrc → ~/.zshrc
+./install.sh          # deploy .config/nvim → ~/.config/nvim, link mise.toml, install tools
+./install.sh --zshrc  # ...and also overwrite ~/.zshrc with this repo's (backs up first)
 ./syncNvimConfig.sh   # pull changes back from ~/.config/nvim into repo (before committing)
 ```
 
-On Windows: `.\install.ps1` copies `.config/nvim` to `%LOCALAPPDATA%\nvim`.
+`--zshrc` is opt-in: a machine may already have a hand-written `~/.zshrc` that
+this template would replace. `install.sh` also `rm -rf`s the target `nvim` dir
+first, because `cp -r` into an existing directory would nest as `nvim/nvim`.
+
+On Windows: `.\install.ps1` copies `.config/nvim` to `%LOCALAPPDATA%\nvim`. There
+is no mise integration on Windows — language servers must be installed by hand.
+
+## Toolchain (mise)
+
+`mise.toml` is the single source of truth for tool versions and is symlinked to
+`~/.config/mise/config.toml`; `mise.lock` is symlinked alongside it, so mise
+writes lock updates straight back into the repo.
+
+- Versions are **exact pins**. Bump with `mise lock --bump <tool>`, then commit both files.
+- `mise.toml` declares tool options (`{ version = ..., prerelease = true }`), so it is not a
+  "safe" config: `install.sh` runs `mise trust` before installing.
+- The shell activates mise in **shims mode** (`.zshrc`: `mise activate zsh --shims`).
+  Tools resolve for child processes that never run a mise prompt (nvim spawning
+  language servers, fzf previews, git hooks).
+- Consequence of shims mode: mise `[env]` vars reach mise-managed processes only,
+  so `JAVA_HOME`/`DOTNET_ROOT` are **not** exported into the interactive shell.
+  See `java.md` before adding java.
+- mise itself is a prerequisite; install it before running `./install.sh`.
+- `java` is intentionally absent from `mise.toml` — see `java.md`.
 
 ## Neovim config structure
 
@@ -51,16 +76,26 @@ Config via `lua/lsp.lua` using `vim.lsp.config` / `vim.lsp.enable` (Nvim 0.11+ A
 **nvim-lspconfig** (`plugin/nvim-lspconfig.lua`) is installed via `vim.pack` as a config registry — it provides default server configs (filetypes, root markers, cmd) into the runtimepath. `require('lspconfig')` is **not** used; it is deprecated.
 
 To add a new server:
-1. Optionally call `vim.lsp.config('server_name', { ... })` in `lua/lsp.lua` to customize defaults.
-2. Add `'server_name'` to the `vim.lsp.enable({ ... })` call at the bottom of `lua/lsp.lua`.
+1. Declare the server binary in `mise.toml` and run `./install.sh`.
+2. Optionally call `vim.lsp.config('server_name', { ... })` in `lua/lsp.lua` to customize defaults.
+3. Add `'server_name'` to the `vim.lsp.enable({ ... })` call at the bottom of `lua/lsp.lua`.
 
-Servers must be installed on the system:
-- TypeScript: `npm i -g typescript-language-server typescript`
-- Lua: `brew/pacman/apt install lua-language-server`
-- C#: download linux-x64 nuget from `https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.languageserver.linux-x64/<version>/microsoft.codeanalysis.languageserver.linux-x64.<version>.nupkg`, extract `content/LanguageServer/linux-x64/` to `~/.roslyn/`, and `chmod +x ~/.roslyn/Microsoft.CodeAnalysis.LanguageServer`
+Server binaries come from mise — do not document manual install steps:
+- TypeScript: `npm:typescript-language-server` (needs `node`, also declared) plus
+  `npm:typescript` — the server bundles no tsserver; `lua/lsp.lua` points it at
+  the mise copy via `tsserver.fallbackPath` (a workspace's own `typescript` still
+  wins). Pin typescript `< 7` until ts_ls supports TS 7.
+- Lua: `lua-language-server`
+- C#: `dotnet:roslyn-language-server` — a dotnet global tool, not a hand-extracted nuget
 
-TypeScript uses project-local `tsserver` when available, falls back to global.
-C# is handled by `plugin/roslyn.lua` (roslyn_ls via nvim-lspconfig) — root detection looks for `*.sln`, `*.csproj`, or `.git`.
+`lua/lsp.lua` sets **no `cmd`** for any of the three servers: nvim-lspconfig's
+defaults resolve `roslyn-language-server` and `lua-language-server` from `PATH`,
+and for `ts_ls` prefer a project-local `node_modules/.bin/typescript-language-server`
+(resolved from `root_dir`) before falling back to the mise shim. The only
+`ts_ls` override is `init_options.tsserver.fallbackPath` (see above).
+
+Roslyn's root detection looks for `*.sln`, `*.csproj`, or `.git`. Bump the server
+with `mise lock --bump dotnet:roslyn-language-server`.
 
 ## Key conventions
 
